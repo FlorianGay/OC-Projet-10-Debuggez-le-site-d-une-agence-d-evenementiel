@@ -8,18 +8,15 @@ const mockContactApi = () => new Promise((resolve) => { setTimeout(resolve, 1000
 
 const Form = ({ onSuccess, onError }) => {
   const [sending, setSending] = useState(false);
-  const [validationMessage, setValidationMessage] = useState('');
   const sendContact = useCallback(
     async (evt) => {
       evt.preventDefault();
       setSending(true);
-      setValidationMessage('')
-      ;
       // We try to call mockContactApi
       try {
         await mockContactApi();
         setSending(false);
-        setValidationMessage('form_message_validation_open')
+        onSuccess()
       } catch (err) {
         setSending(false);
         onError(err);
@@ -51,9 +48,6 @@ const Form = ({ onSuccess, onError }) => {
             label="Message"
             type={FIELD_TYPES.TEXTAREA}
           />
-          <div className={`form_message_validation ${validationMessage}`}>
-            <span>Votre messsage à bien était envoyé</span>
-          </div>
         </div>
       </div>
       
